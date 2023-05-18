@@ -26,7 +26,7 @@ from tensorflow.keras.layers import Dense, Dropout, LSTM
 
 import base64
 from IPython.display import HTML
-from google.colab import drive
+
 
 #code 1
 
@@ -295,7 +295,7 @@ for i in range(0,6):
     img_path='/content/drive/MyDrive/arrows/flat.png'
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '/content/drive/MyDrive/arrows/up arrow.png'
+    img_path = '/bln121/demo2/main/correct.png'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
     img_path='/content/drive/MyDrive/arrows/down arrow.png'
