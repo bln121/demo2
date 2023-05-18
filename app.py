@@ -7,7 +7,7 @@ def main():
     
     # Create a DataFrame
     df = pd.DataFrame({
-        'Image': ['https://raw.githubusercontent.com/<USERNAME>/<REPO_NAME>/<BRANCH_NAME>/<PATH_TO_IMAGE>'],
+        'Image': ['https://raw.githubusercontent.com/bln121/demo2/main/correct.png'],
         'Caption': ['Image Caption']
     })
     
