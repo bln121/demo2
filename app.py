@@ -261,7 +261,9 @@ for k in range(0,7):
 
 actual_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
 
-actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
+data1=data.tail(6)
+actual_data=pd.merge(data1,actual_data,how='outer')
+#actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
 
 actual_data.at[0,"prediction_open"]=round(prediction_open6,2)
 actual_data.at[0,"prediction_close"]=round(prediction_close6,2)
@@ -353,7 +355,9 @@ st.write(HTML(actual_data.head(5).to_html(escape=False)))
 
 future_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
 
-future_data = future_data.append(actual_data.tail(1),ignore_index=True)
+data2=actual_data.tail(1)
+future_data=pd.merge(data2,future_data,how='outer')
+#future_data = future_data.append(actual_data.tail(1),ignore_index=True)
 
 #Accuracy for future data
 future_data.at[0,"accuracy_open"]=100-abs((actual_data.at[6,"prediction_open"]-actual_data.at[6,"Open"])/actual_data.at[6,"Open"]*100)
