@@ -294,13 +294,13 @@ for i in range(0,5):
 
 for i in range(0,6):
   if(abs(actual_data.at[i,'Close']-actual_data.at[i,'Open'])<=3 ):
-    img_path='/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path = '/https://github.com/bln121/demo2/blob/main/correct.png'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
     flag1=-1
   with open(img_path, 'rb') as f:
     img_bytes = f.read()
@@ -310,13 +310,13 @@ for i in range(0,6):
   actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
   
   if(abs(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open'])<=3):
-    img_path='/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
     flag2=0
   elif(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open']>=3):
-    img_path = '/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path = '/https://github.com/bln121/demo2/blob/main/correct.png'
     flag2=1
   elif(actual_data.at[i,'prediction_open']-actual_data.at[i,'prediction_close']>=3):
-    img_path='/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
     flag2=-1
   
   with open(img_path, 'rb') as f:
@@ -329,9 +329,9 @@ for i in range(0,6):
 #code to insert correct or wrong symbol
 
   if(flag1==flag2):
-    img_path='/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
   else:
-    img_path='/https://github.com/bln121/demo/blob/main/correct.png'
+    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
 
   with open(img_path, 'rb') as f:
     img_bytes = f.read()
