@@ -6,10 +6,10 @@ def main():
     st.title("Display Image in Streamlit DataFrame")
     
     # Create a DataFrame
-    df = pd.DataFrame({
-        'Image': ['https://raw.githubusercontent.com/bln121/demo2/main/correct.png'],
-        'Caption': ['Image Caption']
-    })
+    df = pd.DataFrame(
+         'https://raw.githubusercontent.com/bln121/demo2/main/correct.png',columns=['Image']
+        
+    )
     
     # Retrieve the image from the GitHub repository
     df['Image'] = df['Image'].apply(lambda url: Image.open(urllib.request.urlopen(url)))
