@@ -298,10 +298,10 @@ for i in range(0,6):
     img_path='<b>Bold</b>'
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = 'https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path = '<b>Bold</b>'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path='<b>Bold</b>'
     flag1=-1
   #with open(img_path, 'rb') as f:
    # img_bytes = f.read()
@@ -311,13 +311,13 @@ for i in range(0,6):
   actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
   
   if(abs(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open'])<=3):
-    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path='<b>Bold</b>'
     flag2=0
   elif(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open']>=3):
-    img_path = 'https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path = '<b>Bold</b>'
     flag2=1
   elif(actual_data.at[i,'prediction_open']-actual_data.at[i,'prediction_close']>=3):
-    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path='<b>Bold</b>'
     flag2=-1
   
   #with open(img_path, 'rb') as f:
