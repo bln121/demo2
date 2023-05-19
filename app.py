@@ -306,7 +306,7 @@ for i in range(0,6):
   #with open(img_path, 'rb') as f:
    # img_bytes = f.read()
   #img_b64 = base64.b64encode(img_bytes).decode('utf-8')
-   img_b64=img_path
+  img_b64=img_path
 # Add the image data to the DataFrame
   actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
   
