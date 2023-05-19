@@ -301,7 +301,7 @@ for i in range(0,6):
     img_path = 'https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag1=-1
   with open(img_path, 'rb') as f:
     img_bytes = f.read()
