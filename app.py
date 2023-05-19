@@ -13,6 +13,7 @@ import datetime as dt
 from datetime import date, timedelta
 
 
+
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
@@ -21,12 +22,6 @@ from plotly import graph_objs as go
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
-
-
-
-import base64
-from IPython.display import HTML
-
 
 #code 1
 
@@ -260,7 +255,6 @@ for k in range(0,7):
 #Creating empty dataframe- actual_data
 
 actual_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
-
 data1=data.tail(6)
 actual_data=pd.merge(data1,actual_data,how='outer')
 #actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
@@ -294,51 +288,45 @@ for i in range(0,5):
 
 for i in range(0,6):
   if(abs(actual_data.at[i,'Close']-actual_data.at[i,'Open'])<=3 ):
-    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path= "flat"
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path = 'up'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path='down'
     flag1=-1
-  with open(img_path, 'rb') as f:
-    img_bytes = f.read()
-  img_b64 = base64.b64encode(img_bytes).decode('utf-8')
+  
 
 # Add the image data to the DataFrame
-  actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  actual_data.at[i,'actual_direction'] = img_path
   
   if(abs(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open'])<=3):
-    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path=<img src="img_chania.jpg" alt="Flowers in Chania">
     flag2=0
   elif(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open']>=3):
-    img_path = '/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path = 'up'
     flag2=1
   elif(actual_data.at[i,'prediction_open']-actual_data.at[i,'prediction_close']>=3):
-    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path='down'
     flag2=-1
   
-  with open(img_path, 'rb') as f:
-    img_bytes = f.read()
-  img_b64 = base64.b64encode(img_bytes).decode('utf-8')
+  
 
 # Add the image data to the DataFrame
-  actual_data.at[i,'prediction_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  actual_data.at[i,'prediction_direction'] = img_path
 
 #code to insert correct or wrong symbol
 
   if(flag1==flag2):
-    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path='correct'
   else:
-    img_path='/https://github.com/bln121/demo2/blob/main/correct.png'
+    img_path='Wrong'
 
-  with open(img_path, 'rb') as f:
-    img_bytes = f.read()
-  img_b64 = base64.b64encode(img_bytes).decode('utf-8')
+  
 
 # Add the image data to the DataFrame
-  actual_data.at[i,'overall_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  actual_data.at[i,'overall_direction'] = img_path
 # add 1 to each index
 actual_data.index = actual_data.index + 1
 
@@ -348,13 +336,12 @@ actual_data.index = actual_data.index + 1
  #to print historical data -- first 5 rows of actual_data assigned to five_rows
 st.subheader('Prediction of historical data')
 
-st.write(HTML(actual_data.head(5).to_html(escape=False)))
+st.write(actual_data.head(5))
 
 #prediction of future data
 
 
 future_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
-
 data2=actual_data.tail(1)
 future_data=pd.merge(data2,future_data,how='outer')
 #future_data = future_data.append(actual_data.tail(1),ignore_index=True)
@@ -376,9 +363,9 @@ date_str=future_data['Date'].iloc[0]
 tomorrow = datetime.strptime(date_str, '%Y-%m-%d').date() + timedelta(1)
 future_data['Date'].iloc[1] = tomorrow
 future_data.index = future_data.index + 1
-#st.write(future_data)
+
 
 
 st.subheader("Prediction of future data")
+st.write(future_data)
 
-st.write(HTML(future_data.to_html(escape=False)))
