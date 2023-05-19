@@ -262,7 +262,9 @@ for k in range(0,7):
 
 actual_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
 
-actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
+data1=data.tail(6)
+actual_data=pd.merge(data1,actual_data,how='outer')
+#actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
 
 actual_data.at[0,"prediction_open"]=round(prediction_open6,2)
 actual_data.at[0,"prediction_close"]=round(prediction_close6,2)
@@ -293,13 +295,13 @@ for i in range(0,5):
 
 for i in range(0,6):
   if(abs(actual_data.at[i,'Close']-actual_data.at[i,'Open'])<=3 ):
-    img_path='/content/drive/MyDrive/arrows/flat.png'
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '/content/drive/MyDrive/arrows/up arrow.png'
+    img_path = 'https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='/content/drive/MyDrive/arrows/down arrow.png'
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180
     flag1=-1
   with open(img_path, 'rb') as f:
     img_bytes = f.read()
@@ -309,13 +311,13 @@ for i in range(0,6):
   actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
   
   if(abs(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open'])<=3):
-    img_path='/content/drive/MyDrive/arrows/flat.png'
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag2=0
   elif(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open']>=3):
-    img_path = '/content/drive/MyDrive/arrows/up arrow.png'
+    img_path = 'https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag2=1
   elif(actual_data.at[i,'prediction_open']-actual_data.at[i,'prediction_close']>=3):
-    img_path='/content/drive/MyDrive/arrows/down arrow.png'
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
     flag2=-1
   
   with open(img_path, 'rb') as f:
@@ -328,9 +330,9 @@ for i in range(0,6):
 #code to insert correct or wrong symbol
 
   if(flag1==flag2):
-    img_path='/content/drive/MyDrive/arrows/correct.png'
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
   else:
-    img_path='/content/drive/MyDrive/arrows/Wrong.png'
+    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
 
   with open(img_path, 'rb') as f:
     img_bytes = f.read()
@@ -354,7 +356,10 @@ st.write(HTML(actual_data.head(5).to_html(escape=False)))
 
 future_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
 
-future_data = future_data.append(actual_data.tail(1),ignore_index=True)
+data2=actual_data.tail(1)
+future_data=pd.merge(data2,future_data,how='outer')
+
+#future_data = future_data.append(actual_data.tail(1),ignore_index=True)
 
 #Accuracy for future data
 future_data.at[0,"accuracy_open"]=100-abs((actual_data.at[6,"prediction_open"]-actual_data.at[6,"Open"])/actual_data.at[6,"Open"]*100)
