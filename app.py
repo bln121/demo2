@@ -308,8 +308,8 @@ for i in range(0,6):
   #img_b64 = base64.b64encode(img_bytes).decode('utf-8')
   img_b64=img_path
 # Add the image data to the DataFrame
-  actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
-  
+  #actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  actual_data.at[i,'actual_direction'] = img_b64
   if(abs(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open'])<=3):
     img_path='<b>Bold</b>'
     flag2=0
@@ -325,21 +325,22 @@ for i in range(0,6):
   #img_b64 = base64.b64encode(img_bytes).decode('utf-8')
   img_b64=img_path
 # Add the image data to the DataFrame
-  actual_data.at[i,'prediction_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
-
+  #actual_data.at[i,'prediction_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  actual_data.at[i,'prediction_direction'] = img_b64
 #code to insert correct or wrong symbol
 
   if(flag1==flag2):
-    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path='<b>Bold</b>'
   else:
-    img_path='https://tse4.mm.bing.net/th?id=OIP.B6TRJxR2eA7DYGmNyaYG3AHaJX&pid=Api&P=0&h=180'
+    img_path='<b>Bold</b>'
 
   #with open(img_path, 'rb') as f:
 #   img_bytes = f.read()
 # img_b64 = base64.b64encode(img_bytes).decode('utf-8')
   img_b64=img_path
 # Add the image data to the DataFrame
-  actual_data.at[i,'overall_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  #actual_data.at[i,'overall_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
+  actual_data.at[i,'overall_direction'] = img_b64
 # add 1 to each index
 actual_data.index = actual_data.index + 1
 
@@ -350,7 +351,7 @@ actual_data.index = actual_data.index + 1
 st.subheader('Prediction of historical data')
 
 st.write(HTML(actual_data.head(5).to_html(escape=False)))
-
+st.write(actual_data.head(5)
 #prediction of future data
 
 
