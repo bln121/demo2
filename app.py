@@ -354,7 +354,6 @@ st.write(HTML(actual_data.head(5).to_html(escape=False)))
 st.write(actual_data.head(5)
 #prediction of future data
 
-
 future_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
 
 data2=actual_data.tail(1)
