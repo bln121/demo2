@@ -352,4 +352,3 @@ st.subheader('Prediction of historical data')
 
 st.write(HTML(actual_data.head(5).to_html(escape=False)))
 st.write(actual_data.head(5)
-#prediction of future data
