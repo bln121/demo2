@@ -353,34 +353,3 @@ st.subheader('Prediction of historical data')
 st.write(HTML(actual_data.head(5).to_html(escape=False)))
 st.write(actual_data.head(5)
 #prediction of future data
-
-future_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
-
-data2=actual_data.tail(1)
-future_data=pd.merge(data2,future_data,how='outer')
-
-#future_data = future_data.append(actual_data.tail(1),ignore_index=True)
-
-#Accuracy for future data
-future_data.at[0,"accuracy_open"]=100-abs((actual_data.at[6,"prediction_open"]-actual_data.at[6,"Open"])/actual_data.at[6,"Open"]*100)
-future_data.at[0,"accuracy_close"]=100-abs((actual_data.at[6,"prediction_close"]-actual_data.at[6,"Close"])/actual_data.at[6,"Close"]*100)
-
-
-future_data.at[1,"prediction_open"]=round(prediction_open0,2)
-future_data.at[1,"prediction_close"]=round(prediction_close0,2)#Prediction tomorrow's value
-
-#Converting string format date into date  and below is the code to insert the date in future_data dataframe
-
-from datetime import datetime
-
-
-date_str=future_data['Date'].iloc[0]
-tomorrow = datetime.strptime(date_str, '%Y-%m-%d').date() + timedelta(1)
-future_data['Date'].iloc[1] = tomorrow
-future_data.index = future_data.index + 1
-#st.write(future_data)
-
-
-st.subheader("Prediction of future data")
-
-st.write(HTML(future_data.to_html(escape=False)))
