@@ -298,7 +298,7 @@ for i in range(0,6):
     img_path='<b>Bold</b>'
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '<b>Bold</b>'
+    img_path = '<img src="https://tse3.mm.bing.net/th?id=OIP.oHwE7W6T_2kEtiaccChqAQHaHa&pid=Api&P=0&h=180" alt="Girl in a jacket" width="500" height="600">'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
     img_path='<b>Bold</b>'
