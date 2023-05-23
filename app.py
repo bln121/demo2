@@ -351,8 +351,9 @@ actual_data.index = actual_data.index + 1
 st.subheader('Prediction of historical data')
 
 data1=actual_data.head(5)
-st.dataframe(data1,800,250)
-st.write(HTML(data1.to_html(escape=False)))
+st.dataframe(data1,1050,200)
+st.dataframe(HTML(data1.to_html(escape=False),1100,200))
+#st.write(HTML(data1.to_html(escape=False)))
 #st.write(actual_data.head(5))
 
 
