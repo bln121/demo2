@@ -352,7 +352,7 @@ st.subheader('Prediction of historical data')
 
 data1=actual_data.head(5)
 st.dataframe(data1,2000,150)
-st.dataframe(HTML(data1.to_html(escape=False)),1100,200)
+st.dataframe(HTML(data1.to_html(escape=False)))
 #st.write(HTML(data1.to_html(escape=False)))
 #st.write(actual_data.head(5))
 
