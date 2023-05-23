@@ -350,8 +350,10 @@ actual_data.index = actual_data.index + 1
  #to print historical data -- first 5 rows of actual_data assigned to five_rows
 st.subheader('Prediction of historical data')
 
-st.write(HTML(actual_data.head(5).to_html(escape=False)))
-st.write(actual_data.head(5))
+data1=actual_data.head(5)
+st.dataframe(data1,200,100)
+st.write(HTML(data1.to_html(escape=False)))
+#st.write(actual_data.head(5))
 
 
 future_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
