@@ -353,7 +353,18 @@ st.subheader('Prediction of historical data')
 data1=actual_data.head(5)
 st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
-st.write(HTML(data1.to_html(escape=False,width=2000,height=200)))
+#st.write(HTML(data1.to_html(escape=False)))
+
+html_table= HTML(data1.to_html(escape=False,classes='my-table'))
+styled_html_table = f"""
+<style>
+.my-table {{
+    width: 100%;
+}}
+</style>
+{html_table}
+"""
+st.write(styled_html_table, unsafe_allow_html=True)
 #st.write(actual_data.head(5))
 
 
