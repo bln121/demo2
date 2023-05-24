@@ -295,13 +295,13 @@ for i in range(0,5):
 
 for i in range(0,6):
   if(abs(actual_data.at[i,'Close']-actual_data.at[i,'Open'])<=3 ):
-    img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="50" height="40">'
+    img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="20" height="20">'
     flag1=0
   elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '<img src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/11-512.png" alt="Up" width="50" height="40">'
+    img_path = '<img src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/11-512.png" alt="Up" width="20" height="20">'
     flag1=1
   elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="50" height="40">'
+    img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="20" height="20">'
     flag1=-1
   #with open(img_path, 'rb') as f:
    # img_bytes = f.read()
@@ -311,13 +311,13 @@ for i in range(0,6):
   #actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:40%; ">'
   actual_data.at[i,'actual_direction'] = img_b64
   if(abs(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open'])<=3):
-    img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="50" height="40">'
+    img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="20" height="20">'
     flag2=0
   elif(actual_data.at[i,'prediction_close']-actual_data.at[i,'prediction_open']>=3):
-    img_path = '<img src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/11-512.png" alt="Up" width="50" height="40">'
+    img_path = '<img src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/11-512.png" alt="Up" width="20" height="20">'
     flag2=1
   elif(actual_data.at[i,'prediction_open']-actual_data.at[i,'prediction_close']>=3):
-    img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="50" height="40">'
+    img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="20" height="20">'
     flag2=-1
   
   #with open(img_path, 'rb') as f:
@@ -330,9 +330,9 @@ for i in range(0,6):
 #code to insert correct or wrong symbol
 
   if(flag1==flag2):
-    img_path='<img src="https://tse3.mm.bing.net/th?id=OIP.oHwE7W6T_2kEtiaccChqAQHaHa&pid=Api&P=0&h=180 alt="Correct" width="50" height="40">'
+    img_path='<img src="https://tse3.mm.bing.net/th?id=OIP.oHwE7W6T_2kEtiaccChqAQHaHa&pid=Api&P=0&h=180 alt="Correct" width="20" height="20">'
   else:
-    img_path='<img src="https://tse1.mm.bing.net/th?id=OIP.-HP-9rZqrTaXhXP-QV-nTwHaGk&pid=Api&P=0&h=180 alt="Wrong" width="50" height="40">'
+    img_path='<img src="https://tse1.mm.bing.net/th?id=OIP.-HP-9rZqrTaXhXP-QV-nTwHaGk&pid=Api&P=0&h=180 alt="Wrong" width="20" height="20">'
 
   #with open(img_path, 'rb') as f:
 #   img_bytes = f.read()
@@ -351,20 +351,10 @@ actual_data.index = actual_data.index + 1
 st.subheader('Prediction of historical data')
 
 data1=actual_data.head(5)
-st.dataframe(data1,2000,200)
+#st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
-#st.write(HTML(data1.to_html(escape=False)))
+st.write(HTML(data1.to_html(escape=False)))
 
-html_table= HTML(data1.to_html(escape=False,classes='my-table'))
-styled_html_table = f"""
-<style>
-.my-table {{
-    width: 100%;
-}}
-</style>
-{html_table}
-"""
-st.write(styled_html_table, unsafe_allow_html=True)
 #st.write(actual_data.head(5))
 
 
