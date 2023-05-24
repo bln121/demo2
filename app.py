@@ -260,7 +260,7 @@ for k in range(0,7):
 
 #Creating empty dataframe- actual_data
 
-actual_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"]).style.set_properties(**{'width': '80px'})
+actual_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"]).style.set_properties({'width': '80px'})
 
 data1=data.tail(6)
 actual_data=pd.merge(data1,actual_data,how='outer')
