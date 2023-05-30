@@ -349,8 +349,9 @@ actual_data.index = actual_data.index + 1
 
  #to print historical data -- first 5 rows of actual_data assigned to five_rows
 st.subheader('Prediction of historical data')
-actual_data = actual_data.style.set_properties(**{'max-width': '100px'})
+
 data1=actual_data.head(5)
+data1 = data1.style.set_properties({'max-width': '100px'})
 #st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
 st.write(HTML(data1.to_html(escape=False)))
