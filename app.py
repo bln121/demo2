@@ -357,8 +357,8 @@ data1.plot(figsize=(5,2))
 #data1 = data1.style.set_properties({'max-width': '20px'})
 #st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
-#st.write(HTML(data1.to_html(escape=False)))
-st.write(data1)
+st.write(HTML(data1.to_html(escape=False)))
+#st.write(data1)
 #st.write(actual_data.head(5))
 
 
