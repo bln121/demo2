@@ -69,10 +69,12 @@ st.write(data.tail())
 
 def plot_raw_data():
     fig = go.Figure()
+    
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='stock_open'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='stock_close'))
     fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
-    st.plotly_chart(fig)
+    plotly_chart
+    
 
 plot_raw_data()
 
@@ -351,7 +353,8 @@ actual_data.index = actual_data.index + 1
 st.subheader('Prediction of historical data')
 
 data1=actual_data.head(5)
-data1 = data1.style.set_properties({'max-width': '20px'})
+data1.plot(figsize=(5,2))
+#data1 = data1.style.set_properties({'max-width': '20px'})
 #st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
 #st.write(HTML(data1.to_html(escape=False)))
