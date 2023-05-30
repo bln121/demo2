@@ -351,11 +351,11 @@ actual_data.index = actual_data.index + 1
 st.subheader('Prediction of historical data')
 
 data1=actual_data.head(5)
-data1 = data1.style.set_properties({'max-width': '100px'})
+data1 = data1.style.set_properties({'max-width': '20px'})
 #st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
-st.write(HTML(data1.to_html(escape=False)))
-
+#st.write(HTML(data1.to_html(escape=False)))
+st.write(data1)
 #st.write(actual_data.head(5))
 
 
