@@ -261,9 +261,9 @@ for k in range(0,7):
 #Creating empty dataframe- actual_data
 
 actual_data = pd.DataFrame(columns = ["Date","Open","prediction_open","accuracy_open","High","Low","Close","prediction_close","accuracy_close","actual_direction","prediction_direction","overall_direction","Adj Close","Volume"])
-styler = actual_data.style.set_properties(**{'max-width': '100px'})
+
 data1=data.tail(6)
-actual_data=pd.merge(data1,styler,how='outer')
+actual_data=pd.merge(data1,actual_data,how='outer')
 #actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
 
 actual_data.at[0,"prediction_open"]=round(prediction_open6,2)
@@ -349,7 +349,7 @@ actual_data.index = actual_data.index + 1
 
  #to print historical data -- first 5 rows of actual_data assigned to five_rows
 st.subheader('Prediction of historical data')
-
+actual_data = actual_data.style.set_properties(**{'max-width': '100px'})
 data1=actual_data.head(5)
 #st.dataframe(data1,2000,200)
 #st.dataframe(HTML(data1.to_html(escape=False)))
