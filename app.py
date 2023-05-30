@@ -73,7 +73,7 @@ def plot_raw_data():
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='stock_open'))
     fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='stock_close'))
     fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
-    plotly_chart
+   
     
 
 plot_raw_data()
