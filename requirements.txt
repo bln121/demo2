@@ -1,12 +1,13 @@
- pandas
+pip 
+pandas
  numpy
- Ipython
  streamlit 
  yfinance
  plotly
  matplotlib
  tensorflow
- prophet
+ pystan
+  prophet
+
  numpy
  Scikit-learn
- 
