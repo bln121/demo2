@@ -1,3 +1,4 @@
+
 import streamlit as st
 from datetime import date
 
@@ -22,11 +23,6 @@ from plotly import graph_objs as go
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
-
-
-
-import base64
-from IPython.display import HTML
 
 
 #code 1
@@ -76,8 +72,8 @@ def plot_raw_data():
 
 plot_raw_data()
 
-df_train =data[['Date','Close']]
 #Forecasting
+df_train =data[['Date','Close']]
 df_train= df_train.rename(columns={"Date":"ds", "Close": "y"})
 
 m = Prophet()
@@ -119,7 +115,7 @@ data = pd.DataFrame(df)
 
 
 
-for k in range(0,7):
+for k in range(0,2):
   for i in range(0,2):
     if(i==0):
       open_close='Open'
@@ -213,162 +209,56 @@ for k in range(0,7):
         continue
       else:
         prediction_close1=float(prediction)
-        continue
-    
-    if(k==2):
-      if(i==0):
-        prediction_open2=float(prediction)
-        continue
-      else:
-        prediction_close2=float(prediction)
-        continue
+ 
 
-    if(k==3):
-      if(i==0):
-        prediction_open3=float(prediction)
-        continue
-      else:
-        prediction_close3=float(prediction)
-        continue
+#prediction of future data
+st.subheader("Prediction of future data")
 
-    if(k==4):
-      if(i==0):
-        prediction_open4=float(prediction)
-        continue
-      else:
-        prediction_close4=float(prediction)
-        continue
-
-    if(k==5):
-      if(i==0):
-        prediction_open5=float(prediction)
-        continue
-      else:
-        prediction_close5=float(prediction)
-        continue
-
-    if(k==6):
-      if(i==0):
-        prediction_open6=float(prediction)
-        continue
-      else:
-        prediction_close6=float(prediction)
-        
-
-#NextDay_Date =str(datetime.datetime.today() + datetime.timedelta(days=1)).split()
-#print(f"NextDay_Date: {NextDay_Date[0]}")
-
-#Creating empty dataframe- actual_data
-#pc-prediction close acc- accuracy close ad - actual_direction  pd - prediction_direction od-overall_direction po - prediction_open ao-accuracy_open
-st.write("pc -> prediction_close   ac->accuracy_close    ad->actual_direction    pdf->prediction_direction    od->overall_direction    po->prediction_open    ao->accuracy_open")
-
-actual_data = pd.DataFrame(columns = ["Date","Open","p_open","a_open","High","Low","Close","p_close","a_close","a_dir","p_dir","o_dir","Adj Close","Volume"])
-
-data1=data.tail(6)
-actual_data=pd.merge(data1,actual_data,how='outer')
-#actual_data=actual_data.append(data.tail(6),ignore_index=True)  #inserting last five rows from data1 into actual_data
-
-actual_data.at[0,"p_open"]=round(prediction_open6,2)
-actual_data.at[0,"p_close"]=round(prediction_close6,2)
-
-actual_data.at[1,"p_open"]=round(prediction_open5,2)
-actual_data.at[1,"p_close"]=round(prediction_close5,2)
-
-actual_data.at[2,"p_open"]=round(prediction_open4,2)
-actual_data.at[2,"p_close"]=round(prediction_close4,2)
-
-actual_data.at[3,"p_open"]=round(prediction_open3,2)
-actual_data.at[3,"p_close"]=round(prediction_close3,2)
-
-actual_data.at[4,"p_open"]=round(prediction_open2,2)
-actual_data.at[4,"p_close"]=round(prediction_close2,2)
-
-actual_data.at[5,"p_open"]=round(prediction_open1,2)
-actual_data.at[5,"p_close"]=round(prediction_close1,2)
-
-#to calculate accuracy for historical data
-for i in range(0,5):
-  actual_data.at[i,"a_open"]=round(100-abs((actual_data.at[i,"p_open"]-actual_data.at[i,"Open"])/actual_data.at[i,"Open"]*100),2)
-  actual_data.at[i,"Volume"]=str(round(actual_data.at[i,"Volume"]/1000000,1))+"M"
-
-for i in range(0,5):
-  actual_data.at[i,"a_close"]=round(100-abs((actual_data.at[i,"p_close"]-actual_data.at[i,"Close"])/actual_data.at[i,"Close"]*100),2)
-
-#to insert actual_direction,prediction_direction,overall_direction
-
-for i in range(0,6):
-  if(abs(actual_data.at[i,'Close']-actual_data.at[i,'Open'])<=3 ):
-    img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="20" height="20">'
-    flag1=0
-  elif(actual_data.at[i,'Close']-actual_data.at[i,'Open']>=3):
-    img_path = '<img src="https://tse1.mm.bing.net/th?id=OIP.ll5RVXjFVxvkowc-FiCpPwHaJH&pid=Api&P=0&h=180" alt="Up" width="20" height="20">'
-    flag1=1
-  elif(actual_data.at[i,'Open']-actual_data.at[i,'Close']>=3):
-    img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="20" height="20">'
-    flag1=-1
-  #with open(img_path, 'rb') as f:
-   # img_bytes = f.read()
-  #img_b64 = base64.b64encode(img_bytes).decode('utf-8')
-  img_b64=img_path
-# Add the image data to the DataFrame
-  #actual_data.at[i,'actual_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:40%; ">'
-  actual_data.at[i,'a_dir'] = img_b64
-  if(abs(actual_data.at[i,'p_close']-actual_data.at[i,'p_open'])<=3):
-    img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="20" height="20">'
-    flag2=0
-  elif(actual_data.at[i,'p_close']-actual_data.at[i,'p_open']>=3):
-    img_path = '<img src="https://tse1.mm.bing.net/th?id=OIP.ll5RVXjFVxvkowc-FiCpPwHaJH&pid=Api&P=0&h=180" alt="Up" width="20" height="20">'
-    flag2=1
-  elif(actual_data.at[i,'p_open']-actual_data.at[i,'p_close']>=3):
-    img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="20" height="20">'
-    flag2=-1
-  
-
-  img_b64=img_path
-# Add the image data to the DataFrame
-  #actual_data.at[i,'pd'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
-  actual_data.at[i,'p_dir'] = img_b64
-#code to insert correct or wrong symbol
-
-  if(flag1==flag2):
-    img_path='<img src="https://tse3.mm.bing.net/th?id=OIP.oHwE7W6T_2kEtiaccChqAQHaHa&pid=Api&P=0&h=180 alt="Correct" width="20" height="20">'
-  else:
-    img_path='<img src="https://tse1.mm.bing.net/th?id=OIP.-HP-9rZqrTaXhXP-QV-nTwHaGk&pid=Api&P=0&h=180 alt="Wrong" width="20" height="20">'
-
-  img_b64=img_path
-# Add the image data to the DataFrame
-  #actual_data.at[i,'overall_direction'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:20%; ">'
-  actual_data.at[i,'o_dir'] = img_b64
-# add 1 to each index
-actual_data.index = actual_data.index + 1
+future_data = pd.DataFrame(columns = ["Date","Open","p_open","a_open","High","Low","Close","p_close","a_close","a_dir","p_dir","Adj Close","Volume"])
 
 
-#st.write(actual_data.head(5))
+data1=data.tail(1)
 
- #to print historical data -- first 5 rows of actual_data assigned to five_rows
-st.subheader('Prediction of historical data')
-actual_data=actual_data.round(2)
-st.write(HTML(actual_data.head(5).to_html(escape=False)))
+future_data=pd.merge(data1,future_data,how='outer')
 
+#future_data.append(data1,ignore_index=True)
+#future_data=pd.concate([future_data,data.tail(1)])
 
-
-future_data = pd.DataFrame(columns = ["Date","Open","p_open","a_open","High","Low","Close","p_close","a_close","a_dir","p_dir","o_dir","Adj Close","Volume"])
-
-data2=actual_data.tail(1)
-future_data=pd.merge(data2,future_data,how='outer')
-
-#future_data = future_data.append(actual_data.tail(1),ignore_index=True)
+future_data.at[0,"p_open"]=round(prediction_open1,2)
+future_data.at[0,"p_close"]=round(prediction_close1,2)
 
 #Accuracy for future data
-future_data.at[0,"a_open"]=round(100-abs((actual_data.at[6,"p_open"]-actual_data.at[6,"Open"])/actual_data.at[6,"Open"]*100),2)
-future_data.at[0,"a_close"]=round(100-abs((actual_data.at[6,"p_close"]-actual_data.at[6,"Close"])/actual_data.at[6,"Close"]*100),2)
+future_data.at[0,"a_open"]=100-abs((future_data.at[0,"p_open"]-future_data.at[0,"Open"])/future_data.at[0,"Open"]*100)
+future_data.at[0,"a_close"]=100-abs((future_data.at[0,"p_close"]-future_data.at[0,"Close"])/future_data.at[0,"Close"]*100)
 
 
 future_data.at[1,"p_open"]=round(prediction_open0,2)
 future_data.at[1,"p_close"]=round(prediction_close0,2)#Prediction tomorrow's value
 
+#Converting string format date into date  and below is the code to insert the date in future_data dataframe
+
 #conversion of volume into millions
 future_data.at[0,"Volume"]=str(round(future_data.at[0,"Volume"]/1000000,1))+"M"
+
+
+if(abs(future_data.at[0,"p_close"]-future_data.at[0,"p_open"])<=3 ):
+  img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="20" height="20">'
+    
+elif(future_data.at[0,"p_close"]-future_data.at[0,"p_open"]>=3):
+  img_path = '<img src="https://tse1.mm.bing.net/th?id=OIP.ll5RVXjFVxvkowc-FiCpPwHaJH&pid=Api&P=0&h=180" alt="Up" width="20" height="20">'
+    
+elif(future_data.at[0,"p_open"]-future_data.at[0,"p_close"]>=3):
+  img_path='<img src="https://www.freeiconspng.com/uploads/red-arrow-png-26.png" alt="Down" width="20" height="20">'
+    
+  
+  #img_b64 = base64.b64encode(img_bytes).decode('utf-8') 
+img_b64=img_path
+# Add the image data to the DataFrame
+  #actual_data.at[i,'ad'] = '<img src="data:image/jpeg;base64,' + img_b64 + '" style="width:50%;height:40%; ">'
+future_data.at[0,'p_dir'] = img_b64
+
+
+
 if(abs(future_data.at[1,"p_close"]-future_data.at[1,"p_open"])<=3 ):
   img_path='<img src="https://tse2.mm.bing.net/th?id=OIP.ddhO9ual65nyztsl1oxyVAFRC5&pid=Api&P=0&h=180" alt="Flat" width="20" height="20">'
     
@@ -386,9 +276,6 @@ img_b64=img_path
 future_data.at[1,'p_dir'] = img_b64
 
 
-
-#Converting string format date into date  and below is the code to insert the date in future_data dataframe
-
 from datetime import datetime
 
 
@@ -396,9 +283,5 @@ date_str=future_data['Date'].iloc[0]
 tomorrow = datetime.strptime(date_str, '%Y-%m-%d').date() + timedelta(1)
 future_data['Date'].iloc[1] = tomorrow
 future_data.index = future_data.index + 1
-#st.write(future_data)
 
-
-st.subheader("Prediction of future data")
-
-st.write(HTML(future_data.to_html(escape=False)))
+st.write(future_data)
