@@ -2,13 +2,13 @@ import streamlit as st
 import bcrypt  # for password hashing
 
 def save_credentials(username, password):
-    with open("C:\Users\raman\OneDrive\Desktop\credentials.txt", "a") as file:
+    with open("credentials.txt", "a") as file:
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
         file.write(f"{username}:{hashed_password.decode('utf-8')}\n")
         st.success("Signup successful! Please proceed to login.")
 
 def check_credentials(username, password):
-    with open("user_credentials.txt", "r") as file:
+    with open("credentials.txt", "r") as file:
         for line in file:
             stored_username, stored_password = line.strip().split(":")
             if username == stored_username:
