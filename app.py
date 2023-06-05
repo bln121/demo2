@@ -1,23 +1,18 @@
-import streamlit as st
-import bcrypt  # for password hashing
+user_credentials = {}  # Empty dictionary to store usernames and passwords
 
 def save_credentials(username, password):
-    with open("credentials.txt", "a") as file:
-        hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-        file.write(f"{username}:{hashed_password.decode('utf-8')}\n")
-        st.success("Signup successful! Please proceed to login.")
+    user_credentials[username] = password
+    st.success("Signup successful! Please proceed to login.")
 
 def check_credentials(username, password):
-    with open("credentials.txt", "r") as file:
-        for line in file:
-            stored_username, stored_password = line.strip().split(":")
-            if username == stored_username:
-                if bcrypt.checkpw(password.encode("utf-8"), stored_password.encode("utf-8")):
-                    st.success("Login successful!")
-                    return True
-                else:
-                    st.error("Incorrect password. Please try again.")
-                    return False
+    if username in user_credentials:
+        if user_credentials[username] == password:
+            st.success("Login successful!")
+            return True
+        else:
+            st.error("Incorrect password. Please try again.")
+            return False
+    else:
         st.error("User not found. Please sign up first.")
         return False
 
