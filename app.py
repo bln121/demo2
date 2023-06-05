@@ -2,7 +2,7 @@ import streamlit as st
 import bcrypt  # for password hashing
 
 def save_credentials(username, password):
-    with open("user_credentials.txt", "a") as file:
+    with open("C:\Users\raman\OneDrive\Desktop\credentials.txt", "a") as file:
         hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
         file.write(f"{username}:{hashed_password.decode('utf-8')}\n")
         st.success("Signup successful! Please proceed to login.")
