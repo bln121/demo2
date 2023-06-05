@@ -1,3 +1,4 @@
+import streamlit as st
 user_credentials = {}  # Empty dictionary to store usernames and passwords
 
 def save_credentials(username, password):
