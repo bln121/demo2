@@ -1,6 +1,6 @@
 import streamlit as st
 import streamlit_authenticator as stauth
-user_credentials = {}  # Empty dictionary to store usernames and passwords
+#user_credentials = {}  # Empty dictionary to store usernames and passwords
 
 def save_credentials(username, password):
     user_credentials[username] = password
@@ -33,6 +33,8 @@ if not session_state.get("logged_in"):
     st.title("Welcome to My App")
     signup_page()
     #login_page()
+    st.write(user_credentials)
+    
 else:
     st.title("Dashboard")
     st.write("This is the authenticated area of the app.")
