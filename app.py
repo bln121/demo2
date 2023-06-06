@@ -1,22 +1,40 @@
 import streamlit as st
 import streamlit_authenticator as stauth
+user_credentials = {}  # Empty dictionary to store usernames and passwords
 
-def login():
-    names = ['Join Prime','Join Walmart plus']
-    usernames = ['amazon','walmart']
-    passwords = ['amazonpay','phonepe']
-    hashed_passwords = stauth.Hasher(passwords).generate()
-    authenticator = stauth.Authenticate(names,usernames,hashed_passwords,cookie_expiry_days=30)
-    name, authentication_status, username = authenticator.login('Login', 'main')
-        
-    if st.session_state["authentication_status"]:
-        test=authenticator.logout('Logout', 'main')
-        st.write(f'Welcome *{st.session_state["name"]}*')
-        st.title('Some content')
-    elif st.session_state["authentication_status"] == False:
-        st.error('Username/password is incorrect')
-    elif st.session_state["authentication_status"] == None:
-        st.warning('Please enter your username and password')
+def save_credentials(username, password):
+    user_credentials[username] = password
+    st.success("Signup successful! Please proceed to login.")
 
-        
-login()
+def check_credentials(username, password):
+    if username in user_credentials:
+        if user_credentials[username] == password:
+            st.success("Login successful!")
+            return True
+        else:
+            st.error("Incorrect password. Please try again.")
+            return False
+    else:
+        st.error("User not found. Please sign up first.")
+        return False
+
+def signup_page():
+    st.header("Sign Up")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Sign Up"):
+        save_credentials(username, password)
+
+
+session_state = st.session_state
+
+if not session_state.get("logged_in"):
+    st.title("Welcome to My App")
+    signup_page()
+    login_page()
+else:
+    st.title("Dashboard")
+    st.write("This is the authenticated area of the app.")
+    # Add your main application code here
+
