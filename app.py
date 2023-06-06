@@ -1,38 +1,51 @@
 import streamlit as st
-import json
-import os
+import base64
+import requests
 
-CREDENTIALS_FILE = "user_credentials.json"
+GITHUB_TOKEN = "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"
+GITHUB_REPO = "bln121/demo2"
+FILE_PATH = "credentials.txt"
 
-def save_credentials(username, password):
-    user_credentials = load_credentials()
-    user_credentials[username] = password
-    save_to_file(user_credentials)
-    st.success("Signup successful! Please proceed to login.")
+def update_file(username, password):
+    file_contents = f"{username}:{password}\n"
 
-def check_credentials(username, password):
-    user_credentials = load_credentials()
-    if username in user_credentials:
-        if user_credentials[username] == password:
-            st.success("Login successful!")
-            return True
-        else:
-            st.error("Incorrect password. Please try again.")
-            return False
+    # Encode file contents to base64
+    file_contents_encoded = base64.b64encode(file_contents.encode()).decode()
+
+    # Build the API URL
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{FILE_PATH}"
+
+    # Create the headers with the Authorization token
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+    # Get the current file content
+    response = requests.get(url, headers=headers)
+    response_json = response.json()
+
+    if "content" in response_json:
+        # Update the file content
+        sha = response_json["sha"]
+        data = {
+            "message": "Update user credentials",
+            "content": file_contents_encoded,
+            "sha": sha
+        }
+        response = requests.put(url, headers=headers, json=data)
     else:
-        st.error("User not found. Please sign up first.")
-        return False
+        # Create a new file
+        data = {
+            "message": "Create user credentials",
+            "content": file_contents_encoded
+        }
+        response = requests.put(url, headers=headers, json=data)
 
-def load_credentials():
-    if os.path.exists(CREDENTIALS_FILE):
-        with open(CREDENTIALS_FILE, "r") as file:
-            return json.load(file)
+    if response.status_code == 200:
+        st.success("Signup successful! Please proceed to login.")
     else:
-        return {}
-
-def save_to_file(user_credentials):
-    with open(CREDENTIALS_FILE, "w") as file:
-        json.dump(user_credentials, file)
+        st.error("Failed to update the file. Please try again.")
 
 def signup_page():
     st.header("Sign Up")
@@ -40,7 +53,7 @@ def signup_page():
     password = st.text_input("Password", type="password")
 
     if st.button("Sign Up"):
-        save_credentials(username, password)
+        update_file(username, password)
 
 def login_page():
     st.header("Login")
