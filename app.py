@@ -24,7 +24,7 @@ def signup_page():
 
     if st.button("Sign Up"):
         save_credentials(username, password)
-
+st.write(user_credentials)
 def login_page():
     st.header("Login")
     username = st.text_input("Username")
