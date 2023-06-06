@@ -68,7 +68,7 @@ session_state = st.session_state
 if not session_state.get("logged_in"):
     st.title("Welcome to My App")
     signup_page()
-    login_page()
+    #login_page()
 else:
     st.title("Dashboard")
     st.write("This is the authenticated area of the app.")
