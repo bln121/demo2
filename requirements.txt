@@ -1,2 +1,2 @@
 streamlit
-authenticator
+streamlit_authenticator
