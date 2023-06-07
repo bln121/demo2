@@ -42,7 +42,7 @@ def update_file(username, password):
         }
         response = requests.put(url, headers=headers, json=data)
 
-    if response.status_code == 200:
+    if response.status_code == 201 or response.status_code == 200:
         st.success("Signup successful! Please proceed to login.")
     else:
         st.error("Failed to update the file. Please try again.")
