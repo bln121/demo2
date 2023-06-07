@@ -1,74 +1,86 @@
-import streamlit as st
 import sqlite3
-import bcrypt
+import streamlit as st
 
-# Connect to the SQLite database
-conn = sqlite3.connect('database.db')
-c = conn.cursor()
+def create_database():
+    
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("""
+    SELECT name FROM sqlite_master WHERE type='table' AND name='customers'
+    """)
+    if not c.fetchone():
+        c.execute('''CREATE TABLE customers
+                     (name text, address text, phone text)''')
+        conn.commit()
+    conn.close()
 
-# Create a table to store user data
-c.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT,
-        password TEXT
-    )
-''')
-conn.commit()
-
-def save_credentials(username, password):
-    # Hash the password
-    hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-
-    # Insert user data into the database
-    c.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
+def add_customer(name, address, phone):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO customers VALUES (?, ?, ?)", (name, address, phone))
     conn.commit()
+    conn.close()
 
-    st.success("Signup successful! Please proceed to login.")
+def delete_customer(name):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM customers WHERE name=?", (name,))
+    conn.commit()
+    conn.close()
 
-def check_credentials(username, password):
-    # Retrieve the user data from the database
-    c.execute('SELECT * FROM users WHERE username = ?', (username,))
-    user = c.fetchone()
+def update_customer(name, address, phone):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("UPDATE customers SET address = ?, phone = ? WHERE name = ?", (address, phone, name))
+    conn.commit()
+    conn.close()
 
-    if user:
-        # Verify the password
-        if bcrypt.checkpw(password.encode("utf-8"), user[2]):
-            st.success("Login successful!")
-            # Set a session token or identifier
-            # You can use Streamlit's SessionState module or another method of your choice
-            # to store the session state and authenticate subsequent requests
-        else:
-            st.error("Incorrect password. Please try again.")
-    else:
-        st.error("User not found. Please sign up first.")
+def view_customers():
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM customers")
+    customers = c.fetchall()
+    conn.close()
+    return customers
 
-def signup_page():
-    st.header("Sign Up")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+def search_customer(name, phone):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM customers WHERE name=? OR phone=?", (name, phone))
+    customers = c.fetchall()
+    conn.close()
+    return customers
 
-    if st.button("Sign Up"):
-        save_credentials(username, password)
 
-def login_page():
-    st.header("Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+def main():
+    st.title("Customer Database App")
+    
+    
+    create_database()
 
-    if st.button("Login"):
-        check_credentials(username, password)
+    name = st.text_input("Name")
+    address = st.text_input("Address")
+    phone = st.text_input("Phone Number")
+    st.sidebar.header("Click for operations")
+    if st.sidebar.button("Add"):
+        add_customer(name, address, phone)
 
-session_state = st.session_state
+    if st.sidebar.button("Delete"):
+        delete_customer(name)
 
-if not session_state.get("logged_in"):
-    st.title("Welcome to My App")
-    signup_page()
-    login_page()
-else:
-    st.title("Dashboard")
-    st.write("This is the authenticated area of the app.")
-    # Add your main application code here
+    if st.sidebar.button("Update"):
+        update_customer(name, address, phone)
 
-# Close the database connection when the Streamlit app is stopped
-conn.close()
+
+    if st.sidebar.button("Search"):
+        customers = search_customer(name, phone)
+        st.header("Customers File")
+        st.table(customers)   
+
+    if st.sidebar.button("View"):
+        customers = view_customers()
+        st.header("Customers File")
+        st.table(customers)
+
+if __name__ == '__main__':
+    main()
