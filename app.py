@@ -1,51 +1,47 @@
 import streamlit as st
-import base64
-import requests
+import sqlite3
+import bcrypt
 
-GITHUB_TOKEN = "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"
-GITHUB_REPO = "bln121/demo2"
-FILE_PATH = "credentials.txt"
+# Connect to the SQLite database
+conn = sqlite3.connect('database.db')
+c = conn.cursor()
 
-def update_file(username, password):
-    file_contents = f"{username}:{password}\n"
+# Create a table to store user data
+c.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        password TEXT
+    )
+''')
+conn.commit()
 
-    # Encode file contents to base64
-    file_contents_encoded = base64.b64encode(file_contents.encode()).decode()
+def save_credentials(username, password):
+    # Hash the password
+    hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
-    # Build the API URL
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{FILE_PATH}"
+    # Insert user data into the database
+    c.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
+    conn.commit()
 
-    # Create the headers with the Authorization token
-    headers = {
-        "Authorization": f"Bearer {GITHUB_TOKEN}",
-        "Accept": "application/vnd.github.v3+json"
-    }
+    st.success("Signup successful! Please proceed to login.")
 
-    # Get the current file content
-    response = requests.get(url, headers=headers)
-    response_json = response.json()
+def check_credentials(username, password):
+    # Retrieve the user data from the database
+    c.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user = c.fetchone()
 
-    if "content" in response_json:
-        # Update the file content
-        sha = response_json["sha"]
-        data = {
-            "message": "Update user credentials",
-            "content": file_contents_encoded,
-            "sha": sha
-        }
-        response = requests.put(url, headers=headers, json=data)
+    if user:
+        # Verify the password
+        if bcrypt.checkpw(password.encode("utf-8"), user[2]):
+            st.success("Login successful!")
+            # Set a session token or identifier
+            # You can use Streamlit's SessionState module or another method of your choice
+            # to store the session state and authenticate subsequent requests
+        else:
+            st.error("Incorrect password. Please try again.")
     else:
-        # Create a new file
-        data = {
-            "message": "Create user credentials",
-            "content": file_contents_encoded
-        }
-        response = requests.put(url, headers=headers, json=data)
-
-    if response.status_code == 201 or response.status_code == 200:
-        st.success("Signup successful! Please proceed to login.")
-    else:
-        st.error("Failed to update the file. Please try again.")
+        st.error("User not found. Please sign up first.")
 
 def signup_page():
     st.header("Sign Up")
@@ -53,7 +49,7 @@ def signup_page():
     password = st.text_input("Password", type="password")
 
     if st.button("Sign Up"):
-        update_file(username, password)
+        save_credentials(username, password)
 
 def login_page():
     st.header("Login")
@@ -68,8 +64,11 @@ session_state = st.session_state
 if not session_state.get("logged_in"):
     st.title("Welcome to My App")
     signup_page()
-    #login_page()
+    login_page()
 else:
     st.title("Dashboard")
     st.write("This is the authenticated area of the app.")
     # Add your main application code here
+
+# Close the database connection when the Streamlit app is stopped
+conn.close()
