@@ -3,7 +3,7 @@ import sqlite3
 import bcrypt
 
 # Connect to the SQLite database
-conn = sqlite3.connect('C:\Users\raman\OneDrive\Desktop\database')
+conn = sqlite3.connect('database.db')
 c = conn.cursor()
 
 # Create a table to store user data
