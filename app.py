@@ -9,7 +9,7 @@ while True:
     password = st.text_input("Password", type="password")
     if st.button("Sign Up"):
         user_credentials[username] = password
-
+    st.write(user_credentials)
 # Display the stored use
 st.write("Stored Usernames and Passwords:")
 #for username, password in user_credentials.items():
