@@ -12,6 +12,6 @@ while True:
 
 # Display the stored use
 st.write("Stored Usernames and Passwords:")
-for username, password in user_credentials.items():
-    #print(f"Username: {username}, Password: {password}")
-    st.write(user_credentials)
+#for username, password in user_credentials.items():
+    #print(f"Username: {username}, Password: {password}"
+st.write(user_credentials)
