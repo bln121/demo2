@@ -7,7 +7,8 @@ while True:
     if username == 'q':
         break
     password = st.text_input("Password", type="password")
-    user_credentials[username] = password
+    if st.button("Sign Up"):
+        user_credentials[username] = password
 
 # Display the stored use
 st.write("Stored Usernames and Passwords:")
