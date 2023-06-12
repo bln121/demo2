@@ -1,18 +1,20 @@
-# streamlit_app.py
-
-import pandas as pd
 import streamlit as st
+from gsheetsdb import connect
 
-# Read in data from the Google Sheet.
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
-def load_data(sheets_url):
-    #csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
-    csv_url=sheets_url
-    return pd.read_csv(csv_url)
+# Create a connection object.
+conn = connect()
 
-df = load_data("https://docs.google.com/spreadsheets/d/1jJH8_IAVNIJdNsHAdDLy3DaebK8nb_Vy9ca5I7A2CfY/edit?usp=sharing")
+# Perform SQL query on the Google Sheet.
+# Uses st.cache to only rerun when the query changes or after 10 min.
+@st.cache(ttl=600)
+def run_query(query):
+    rows = conn.execute(query, headers=1)
+    rows = rows.fetchall()
+    return rows
+
+sheet_url = st.secrets["public_gsheets_url"]
+rows = run_query(f'SELECT * FROM "{sheet_url}"')
 
 # Print results.
-for row in df.itertuples():
+for row in rows:
     st.write(f"{row.name} has a :{row.pet}:")
