@@ -7,7 +7,8 @@ import streamlit as st
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
-    csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
+    #csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
+    csv_url=sheets_url
     return pd.read_csv(csv_url)
 
 df = load_data("https://docs.google.com/spreadsheets/d/1jJH8_IAVNIJdNsHAdDLy3DaebK8nb_Vy9ca5I7A2CfY/edit?usp=sharing")
