@@ -1,17 +1,17 @@
-import streamlit as st
-user_credentials = {}  # Initialize an empty dictionary
+# streamlit_app.py
 
-# Prompt the user to enter multiple usernames and passwords
-while True:
-    username = st.text_input("Username")
-    if username == 'q':
-        break
-    password = st.text_input("Password", type="password")
-    if st.button("Sign Up"):
-        user_credentials[username] = password
-    st.write(user_credentials)
-# Display the stored use
-st.write("Stored Usernames and Passwords:")
-#for username, password in user_credentials.items():
-    #print(f"Username: {username}, Password: {password}"
-st.write(user_credentials)
+import pandas as pd
+import streamlit as st
+
+# Read in data from the Google Sheet.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def load_data(sheets_url):
+    csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
+    return pd.read_csv(csv_url)
+
+df = load_data(st.secrets["public_gsheets_url"])
+
+# Print results.
+for row in df.itertuples():
+    st.write(f"{row.name} has a :{row.pet}:")
