@@ -1,20 +1,18 @@
 import streamlit as st
-from gsheetsdb import connect
+import pandas as pd
+import gspread
 
-# Create a connection object.
-conn = connect()
+# Open the Google Sheets document
+sheet = gspread.open_by_url('https://docs.google.com/spreadsheets/d/your-sheet-id/edit#gid=your-sheet-gid')
 
-# Perform SQL query on the Google Sheet.
-# Uses st.cache to only rerun when the query changes or after 10 min.
-@st.cache(ttl=600)
-def run_query(query):
-    rows = conn.execute(query, headers=1)
-    rows = rows.fetchall()
-    return rows
+# Get the first sheet of the document
+worksheet = sheet.get_worksheet(0)
 
-sheet_url = st.secrets["public_gsheets_url"]
-rows = run_query(f'SELECT * FROM "{sheet_url}"')
+# Get all values from the worksheet
+data = worksheet.get_all_values()
 
-# Print results.
-for row in rows:
-    st.write(f"{row.name} has a :{row.pet}:")
+# Convert the data to a Pandas DataFrame
+df = pd.DataFrame(data)
+
+# Display the DataFrame in Streamlit
+st.write(df)
