@@ -23,7 +23,7 @@ phone = st.text_input("Enter your phone number:")
 new_row = [name, email, phone]
 
 # Append the new row to the existing DataFrame
-df = df.append(pd.Series(new_row, index=df.columns), ignore_index=True)
+df = pd.concat([df, pd.DataFrame([new_row], columns=df.columns)], ignore_index=True)
 
 # Update the Google Sheets document
 gc = gspread.models.Spreadsheet()
