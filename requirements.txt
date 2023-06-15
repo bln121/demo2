@@ -5,8 +5,7 @@ gspread
 lxml
 pandas
 numpy
-Ipython
-streamlit 
+Ipython 
 yfinance
 plotly
 matplotlib
