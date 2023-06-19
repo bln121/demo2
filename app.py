@@ -420,11 +420,11 @@ pc={"Narayana": "123",
  
 def update():   
     st.header("Update")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    username1 = st.text_input("Username")
+    password1 = st.text_input("Password", type="password")
     if st.button("Update"):
         global pc
-        pc[username]=password
+        pc[username1]=password1
         st.write(pc)
 
 def login_page():
