@@ -440,11 +440,11 @@ def login_page():
             prediction()
         else:
             st.write("Enter valid username or password to login")
-            update()
+            #update()
          
             
-            
-login_page() 
+update()            
+#login_page() 
 
         
   
